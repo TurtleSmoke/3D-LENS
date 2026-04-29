@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.py[codz]
+
+# Environments
+.venv
+
+# Ruff stuff:
+.ruff_cache/
+
+# Jetbrains IDE
+.idea
