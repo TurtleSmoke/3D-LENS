@@ -35,6 +35,10 @@ import Picture from "./components/Picture.astro";
 
 import gabstract from "./assets/gabstract.png";
 
+import tableAgreid from "./assets/table_agreid.svg?raw";
+import tableAgreid2Aerial from "./assets/table_agreid2_aerial.svg?raw";
+import tableAgreid2CctvWearable from "./assets/table_agreid2_cctv_wearable.svg?raw";
+
 <Figure>
     <Picture slot="figure" src={gabstract} alt="Problem formulation and proposed solution" priority />
     <Fragment slot="caption">**Problem Formulation and Proposed Solution.** Standard AG-ReID (1.A) relies on paired data, which is often unavailable in real-world scenarios and leads to a missing cross-view challenge. We propose the Single-View Aerial-Ground Re-Identification (SV AG-ReID) setting (1.B), where models must adapt from a single viewpoint to an unseen target viewpoint. 3D-LENS tackles it with a Geometrically Consistent Novel View Synthesis (2.A) and a Robust Representation Learning scheme (2.B).</Fragment>
@@ -58,8 +62,18 @@ Aerial-Ground Re-Identification (AG-ReID) is constrained by the viewpoint-domain
 ## Results
 
 <Figure>
-    <Picture slot="figure" src="../assets/table_agreid.pdf" alt="State-of-the-art comparison on the AG-ReID dataset" />
+    <Fragment slot="figure" set:html={tableAgreid} />
     <Fragment slot="caption">**State-of-the-Art Comparison on AG-ReID Dataset.** Training is performed on a single viewpoint (Aerial or Ground) and evaluated in a cross-view Query $\rightarrow$ Gallery scenario on Aerial (A), and Ground (G). Results are reported as mAP and Rank-1 (%). Best results are in **bold**, and second-best are <u>underlined</u>.</Fragment>
+</Figure>
+
+<Figure>
+    <Fragment slot="figure" set:html={tableAgreid2Aerial} />
+    <Fragment slot="caption">**State-of-the-Art Comparison on AG-ReID.v2 Dataset.** Training is performed on a single viewpoint (Aerial) and evaluated in a cross-view Query $\rightarrow$ Gallery scenario against CCTV (C) and Wearable (W).</Fragment>
+</Figure>
+
+<Figure>
+    <Fragment slot="figure" set:html={tableAgreid2CctvWearable} />
+    <Fragment slot="caption">**State-of-the-Art Comparison on AG-ReID.v2 Dataset.** Training is performed on a single viewpoint (CCTV or Wearable) and evaluated in a cross-view Query $\rightarrow$ Gallery scenario against Aerial (A).</Fragment>
 </Figure>
 
 3D-LENS surpasses the state of the art by **14.30 pp mAP** on AG-ReID and **21.20 pp mAP** on AG-ReID.v2.
