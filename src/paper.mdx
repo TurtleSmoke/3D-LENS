@@ -1,0 +1,80 @@
+---
+title: "3D-LENS: A 3D Lifting-based Elevated Novel-view Synthesis method for Single-View Aerial-Ground Re-Identification"
+authors:
+  - name: William Grolleau
+    url: https://turtlesmoke.dev
+    institution: Université Paris-Saclay, CEA, List
+    notes: ["*"]
+  - name: Astrid Sabourin
+    institution: Université Paris-Saclay, CEA, List
+  - name: Guillaume Lapouge
+    institution: Université Paris-Saclay, CEA, List
+    notes: ["*"]
+  - name: Catherine Achard
+    institution: Sorbonne University, CNRS, ISIR
+conference: ECCV 2026
+notes:
+  - symbol: "*"
+    text: "Contact emails {william.grolleau, guillaume.lapouge}@cea.fr"
+links:
+  - name: Code
+    url: https://github.com/TurtleSmoke/3D-LENS
+    icon: ri:github-fill
+  - name: arXiv
+    url: https://arxiv.org/abs/2604.26520
+    icon: academicons:arxiv
+
+description: "A geometrically-consistent novel view synthesis framework for Single-View Aerial-Ground Re-Identification, training on one real viewpoint and generalizing to an unseen one."
+theme: light
+favicon: 3D-LENS.svg
+---
+
+import HighlightedSection from "./components/HighlightedSection.astro";
+import Figure from "./components/Figure.astro";
+import Picture from "./components/Picture.astro";
+
+import gabstract from "./assets/gabstract.png";
+
+<Figure>
+    <Picture slot="figure" src={gabstract} alt="Problem formulation and proposed solution" priority />
+    <Fragment slot="caption">**Problem Formulation and Proposed Solution.** Standard AG-ReID (1.A) relies on paired data, which is often unavailable in real-world scenarios and leads to a missing cross-view challenge. We propose the Single-View Aerial-Ground Re-Identification (SV AG-ReID) setting (1.B), where models must adapt from a single viewpoint to an unseen target viewpoint. 3D-LENS tackles it with a Geometrically Consistent Novel View Synthesis (2.A) and a Robust Representation Learning scheme (2.B).</Fragment>
+</Figure>
+
+<HighlightedSection>
+
+## Abstract
+
+Aerial-Ground Re-Identification (AG-ReID) is constrained by the viewpoint-domain gap, as drastic viewpoint disparities occlude or distort discriminative features, making cross-viewpoint image retrieval challenging. While existing methods rely on paired cross-view annotations, real-world deployments, such as wilderness search-and-rescue (SAR), often lack target-domain data, requiring retrieval from ground-level references alone. To our knowledge, we are the first to address this challenge by formalizing the **Single-View AG-ReID** (SV AG-ReID) setting, where models trained on a single real viewpoint must generalize to an unseen viewpoint.
+
+We propose **3D Lifting-based Elevated Novel-view Synthesis** (3D-LENS), a unified framework combining **geometrically-consistent novel view synthesis** that leverages large-scale 3D mesh reconstruction, with a **robust representation learning** scheme to mitigate synthetic-to-real bias. Unlike 2D generative baselines that suffer from geometric inconsistencies or prior 3D methods that are restricted to class-specific templates, our approach ensures view-consistent synthesis across diverse categories without predefined templates that fail to capture fine-grained details, such as carried objects. Extensive experiments demonstrate that our method achieves state-of-the-art performance on SV AG-ReID scenarios.
+
+</HighlightedSection>
+
+## Method
+
+<Figure>
+    <Picture slot="figure" src="../assets/lens.pdf" alt="Overview of the 3D-LENS framework" />
+    <Fragment slot="caption">**Overview of the 3D-LENS framework.** For the Geometrically Consistent Novel View Synthesis, a source image is canonically lifted to a 3D representation (1.A), followed by novel view synthesis (1.B) and synthetic-to-real alignment (1.C). In our Robust Representation Learning scheme, an elevation-based curriculum scheduler (2.A) progressively introduces these synthetic views into training, then a balanced sampling strategy (2.B) mixes synthetic and real images into a batch optimized with standard ReID losses and a domain loss (2.C).</Fragment>
+</Figure>
+
+Lifting an object into 3D decouples generation from rendering: geometry and texture are locked in once, so every rendered view is consistent with the others. This gives precise control over azimuth and elevation, and, unlike template-based methods (SMPL for humans, CAD for vehicles), it is class-agnostic — it reconstructs pedestrians with their carried objects, but also vehicles or animals.
+
+## Results
+
+<Figure>
+    <Picture slot="figure" src="../assets/visu_qual.pdf" alt="Qualitative results" />
+    <Fragment slot="caption">Qualitative novel view synthesis results.</Fragment>
+</Figure>
+
+3D-LENS surpasses the state of the art by **14.30 pp mAP** on AG-ReID and **21.20 pp mAP** on AG-ReID.v2.
+
+## Citation
+
+```bibtex
+@inproceedings{grolleau2026lens,
+  author    = {Grolleau, William and Sabourin, Astrid and Lapouge, Guillaume and Achard, Catherine},
+  title     = {{3D-LENS}: {A} {3D} Lifting-based Elevated Novel-view Synthesis method for Single-View Aerial-Ground Re-Identification},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2026},
+}
+```
