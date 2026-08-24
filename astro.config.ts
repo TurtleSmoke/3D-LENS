@@ -37,6 +37,10 @@ export default defineConfig({
   integrations: [
     icon(),
     astroExpressiveCode({
+      // The page is pinned to the light theme, but the citation block reads
+      // better dark, so give code blocks the dark theme unconditionally.
+      themes: ["github-dark"],
+      themeCssSelector: false,
       styleOverrides: {
         borderRadius: "0.5rem",
         borderWidth: "0",
@@ -46,8 +50,6 @@ export default defineConfig({
           shadowColor: "transparent",
         },
       },
-      themeCssSelector: (theme) =>
-        theme.type === "dark" ? `[data-theme="dark"]` : `[data-theme="light"]`,
     }),
     mdx(),
     react(),
