@@ -26,7 +26,7 @@ links:
 
 description: "A geometrically-consistent novel view synthesis framework for Single-View Aerial-Ground Re-Identification, training on one real viewpoint and generalizing to an unseen one."
 theme: light
-favicon: 3D-LENS.svg
+favicon: logo.png
 ---
 
 import HighlightedSection from "./components/HighlightedSection.astro";
@@ -44,9 +44,7 @@ import gabstract from "./assets/gabstract.png";
 
 ## Abstract
 
-Aerial-Ground Re-Identification (AG-ReID) is constrained by the viewpoint-domain gap, as drastic viewpoint disparities occlude or distort discriminative features, making cross-viewpoint image retrieval challenging. While existing methods rely on paired cross-view annotations, real-world deployments, such as wilderness search-and-rescue (SAR), often lack target-domain data, requiring retrieval from ground-level references alone. To our knowledge, we are the first to address this challenge by formalizing the **Single-View AG-ReID** (SV AG-ReID) setting, where models trained on a single real viewpoint must generalize to an unseen viewpoint.
-
-We propose **3D Lifting-based Elevated Novel-view Synthesis** (3D-LENS), a unified framework combining **geometrically-consistent novel view synthesis** that leverages large-scale 3D mesh reconstruction, with a **robust representation learning** scheme to mitigate synthetic-to-real bias. Unlike 2D generative baselines that suffer from geometric inconsistencies or prior 3D methods that are restricted to class-specific templates, our approach ensures view-consistent synthesis across diverse categories without predefined templates that fail to capture fine-grained details, such as carried objects. Extensive experiments demonstrate that our method achieves state-of-the-art performance on SV AG-ReID scenarios.
+Aerial-Ground Re-Identification (AG-ReID) is constrained by the viewpoint-domain gap, as drastic viewpoint disparities occlude or distort discriminative features, making cross-viewpoint image retrieval challenging. While existing methods rely on paired cross-view annotations, real-world deployments, such as wilderness search-and-rescue (SAR), often lack target-domain data, requiring retrieval from ground-level references alone. To our knowledge, we are the first to address this challenge by formalizing the Single-View AG-ReID (SV AG-ReID) setting, where models trained on a single real viewpoint must generalize to an unseen viewpoint. We propose 3D Lifting-based Elevated Novel-view Synthesis (3D-LENS), a unified framework combining geometrically-consistent novel view synthesis that leverages large-scale 3D mesh reconstruction, with a robust representation learning scheme to mitigate synthetic-to-real bias. Unlike 2D generative baselines that suffer from geometric inconsistencies or prior 3D methods that are restricted to class-specific templates, our approach ensures view-consistent synthesis across diverse categories without predefined templates that fail to capture fine-grained details, such as carried objects. Extensive experiments demonstrate that our method achieves state-of-the-art performance on SV AG-ReID scenarios.
 
 </HighlightedSection>
 
@@ -57,9 +55,27 @@ We propose **3D Lifting-based Elevated Novel-view Synthesis** (3D-LENS), a unifi
     <Fragment slot="caption">**Overview of the 3D-LENS framework.** For the Geometrically Consistent Novel View Synthesis, a source image is canonically lifted to a 3D representation (1.A), followed by novel view synthesis (1.B) and synthetic-to-real alignment (1.C). In our Robust Representation Learning scheme, an elevation-based curriculum scheduler (2.A) progressively introduces these synthetic views into training, then a balanced sampling strategy (2.B) mixes synthetic and real images into a batch optimized with standard ReID losses and a domain loss (2.C).</Fragment>
 </Figure>
 
-Lifting an object into 3D decouples generation from rendering: geometry and texture are locked in once, so every rendered view is consistent with the others. This gives precise control over azimuth and elevation, and, unlike template-based methods (SMPL for humans, CAD for vehicles), it is class-agnostic — it reconstructs pedestrians with their carried objects, but also vehicles or animals.
+Lifting an object into 3D decouples generation from rendering: geometry and texture are locked in once, so every rendered view is consistent with the others. This gives precise control over azimuth and elevation, and, unlike template-based methods (SMPL for humans, CAD for vehicles), it is class-agnostic. It reconstructs pedestrians with their carried objects, but also vehicles or animals.
 
 ## Results
+
+**State-of-the-Art Comparison on AG-ReID.** Training is performed on a single viewpoint (Aerial or Ground) and evaluated in a cross-view Query $\rightarrow$ Gallery scenario on Aerial (A) and Ground (G). Results are reported as mAP and Rank-1 (%). Best results are in **bold**, second-best are <u>underlined</u>.
+
+|                    |          | Aerial training                    |          |                                    |          | Ground training                    |          |                                    |          |
+| ------------------ | -------- | ---------------------------------- | -------- | ---------------------------------- | -------- | ---------------------------------- | -------- | ---------------------------------- | -------- |
+|                    |          | $G \rightarrow A$                  |          | $A \rightarrow G$                  |          | $G \rightarrow A$                  |          | $A \rightarrow G$                  |          |
+| **Method**         | **Year** | mAP                                | R-1      | mAP                                | R-1      | mAP                                | R-1      | mAP                                | R-1      |
+| BoT                | 2019     | 41.7                               | 55.7     | 29.6                               | 34.3     | 45.3                               | 51.8     | 49.6                               | 60.2     |
+| ViT                | 2020     | 42.6                               | 58.1     | 31.9                               | 35.8     | 46.9                               | 54.6     | 49.8                               | 60.1     |
+| AGW                | 2021     | 41.4                               | 55.3     | 32.2                               | 36.7     | 42.3                               | 51.0     | 47.3                               | 59.5     |
+| TransReID          | 2021     | 32.7                               | 46.4     | 23.5                               | 25.2     | 44.2                               | 50.7     | 49.7                               | 62.6     |
+| RotTrans           | 2022     | 35.2                               | 50.2     | 23.2                               | 35.8     | 44.8                               | 50.3     | 48.8                               | 59.3     |
+| PASS               | 2022     | 39.1                               | 52.2     | 26.0                               | 28.6     | 47.7                               | 56.2     | 47.8                               | 58.0     |
+| SBS                | 2023     | 16.8                               | 27.9     | 15.5                               | 15.2     | 27.1                               | 32.3     | 27.5                               | 37.5     |
+| DCT                | 2023     | 22.0                               | 35.8     | 14.0                               | 14.2     | 36.2                               | 43.8     | 40.6                               | 52.3     |
+| VDT                | 2024     | 39.0                               | 53.3     | 31.7                               | 36.1     | 48.3                               | 56.0     | 51.4                               | 63.2     |
+| DCAC               | 2025     | <u>43.4</u>                        | <u>60.0</u> | <u>35.2</u>                     | <u>42.7</u> | <u>49.7</u>                     | <u>61.6</u> | <u>52.9</u>                     | <u>66.4</u> |
+| **3D-LENS (ours)** | **2026** | **49.8**                           | **62.9** | **49.5**                           | **57.7** | **53.3**                           | **65.2** | **55.1**                           | **67.4** |
 
 <Figure>
     <Picture slot="figure" src="../assets/visu_qual.pdf" alt="Qualitative results" />

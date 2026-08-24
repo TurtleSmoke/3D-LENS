@@ -51,7 +51,7 @@ const prefix = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
 
-    <link rel="icon" type="image/svg+xml" href={prefix + favicon} />
+    <link rel="icon" href={prefix + favicon} />
 
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
