@@ -25,3 +25,7 @@ pnpm-debug.log*
 
 # OMC state
 .omc/
+
+# Vim swap files
+*.swp
+*.swo
