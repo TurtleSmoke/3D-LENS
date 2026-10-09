@@ -1,0 +1,53 @@
+GLOBAL:
+  SEED: 42
+  OUTPUT_DIR:           # set by --output_dir
+  NAME:                 # set by --name
+  MODE: "release"
+  RUN_MODE: "train"     # "train" or "eval"
+  NUM_WORKERS: 8
+  EVAL_PERIOD: 5
+
+DATA:
+  ROOT_DIR:             # set by --root_dir
+  DATASET:              # "AG-ReID", "AG-ReID.v2" or "MOO"
+  DATASET_DIR:          # [real dataset, synthetic dataset], or [real dataset] for the baseline; relative to ROOT_DIR
+  TRAIN: "train_all.txt"
+  QUERY:
+  GALLERY:
+  DOMAIN_FILTER:        # viewpoint-domain of the training images (single-view training)
+
+TRAIN:
+  BATCH_SIZE: 128       # P = 32 identities x K = 4 images
+  NUM_INSTANCES: 4
+  MAX_EPOCHS: 120
+  IMG_SIZE: [ 256, 128 ]
+  LR: 0.0008
+  SAMPLER: "balanced"   # "balanced" (3D-LENS) or "naive" (ViT baseline, real images only)
+  REAL_RATIO: 0.5
+  CURRICULUM_WARMUP_EPOCHS: 20  # 0 disables the curriculum
+  ID_LOSS_WEIGHT: 1.0
+  TRIPLET_LOSS_WEIGHT: 1.0
+  DOMAIN_LOSS_WEIGHT: 0.5
+
+  OPTIMIZER:
+    NAME: "sgd"
+    WEIGHT_DECAY: 0.0001
+    LR: "${TRAIN.LR}"
+
+  SCHEDULER:
+    MAX_EPOCHS: "${TRAIN.MAX_EPOCHS}"
+    LR: "${TRAIN.LR}"
+    WARMUP_STEPS: 2000
+
+MODEL:
+  REID:
+    IMG_SIZE: "${TRAIN.IMG_SIZE}"
+    PATCH_SIZE: 16
+    STRIDE_SIZE: 16
+    NUM_HEADS: 12
+    DEPTH: 12
+    PRETRAINED_PATH:    # ImageNet-21k ViT-B/16 (jx_vit_base_p16_224-80ecf9dd.pth), required for training
+
+TEST:
+  BATCH_SIZE: 256
+  WEIGHTS:              # 3D-LENS checkpoint, required for RUN_MODE=eval

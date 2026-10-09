@@ -5,8 +5,19 @@ __pycache__/
 # Environments
 .venv
 
-# Ruff stuff:
+# Ruff stuff
 .ruff_cache/
 
 # Jetbrains IDE
 .idea
+
+# Build artifacts
+build/
+reid/rank_cy.c
+*.so
+
+# Outputs and weights
+runs/
+*.pth
+*.egg-info/
+.venv/

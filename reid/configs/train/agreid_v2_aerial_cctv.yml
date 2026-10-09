@@ -1,0 +1,6 @@
+DATA:
+  DATASET: "AG-ReID.v2"
+  DATASET_DIR: [ "AG-ReID.v2", "AG-ReID.v2_3D-LENS" ]
+  QUERY: [ "cctv", "aerial" ]
+  GALLERY: [ "aerial", "cctv" ]
+  DOMAIN_FILTER: [ 0 ]  # train on aerial images only, evaluate A<->C

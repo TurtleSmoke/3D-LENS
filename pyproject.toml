@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "3d-lens"
+version = "1.0.0"
+description = "3D-LENS: 3D Lifting-based Elevated Novel-view Synthesis for Single-View Aerial-Ground Re-Identification (ECCV 2026)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "cython>=3.0",
+    "numpy<2",
+    "omegaconf>=2.3.0",
+    "pillow",
+    "tensorboard>=2.15",
+    "timm>=0.9",
+    "torch==2.4.0",
+    "torchvision==0.19.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["reid*"]
+
+[tool.setuptools.package-data]
+reid = ["configs/*.yml", "configs/train/*.yml", "rank_cy.pyx", "Makefile"]
+
+[tool.ruff]
+line-length = 120
+exclude = ["reid/models/vit_pytorch.py", "generation/styleid/run_styleid.py"]  # upstream TransReID / StyleID code
+
+[tool.ruff.lint]
+select = ["E", "F", "B"]
+ignore = ["E501", "E731"]
+
+[tool.ruff.lint.per-file-ignores]
+"generation/*" = ["B905"]  # generation scripts also run in the Python 3.9 environment of Hunyuan3D-2
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.6.2",
+    "ruff>=0.16.10",
+]
+generation = [
+    "matplotlib>=3.10.9",
+    "opencv-python>=4.11.0.86",
+    "pandas>=2.3.3",
+    "pyrender>=0.1.45",
+    "scipy>=1.15.3",
+    "simple-lama-inpainting>=0.1.0",
+    "trimesh>=5.1.1",
+    "ultralytics>=8.2.85",
+]

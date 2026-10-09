@@ -1,0 +1,6 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.10  # same version as the dev group (uv.lock)
+    hooks:
+      - id: ruff-check
+      - id: ruff-format

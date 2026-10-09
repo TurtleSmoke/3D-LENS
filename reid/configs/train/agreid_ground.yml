@@ -1,0 +1,6 @@
+DATA:
+  DATASET: "AG-ReID"
+  DATASET_DIR: [ "AG-ReID", "AG-ReID_3D-LENS" ]
+  QUERY: [ "aerial", "cctv" ]
+  GALLERY: [ "cctv", "aerial" ]
+  DOMAIN_FILTER: [ 3 ]  # train on ground (CCTV) images only
