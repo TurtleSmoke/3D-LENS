@@ -1,0 +1,17 @@
+name: Sync Hugging Face model card
+
+on:
+  push:
+    branches: [main]
+    paths: [hf_card.md]
+  workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: >-
+          pipx run --spec huggingface_hub hf upload TurtleSmoke/3D-LENS hf_card.md README.md --repo-type model --commit-message "docs: sync model card from GitHub ${GITHUB_SHA::7}"
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
