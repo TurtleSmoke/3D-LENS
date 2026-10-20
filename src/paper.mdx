@@ -31,43 +31,46 @@ links:
     icon: ri:github-fill
   - name: Checkpoints
     url: https://huggingface.co/TurtleSmoke/3D-LENS
-    icon: ri:download-cloud-2-fill
+    icon: huggingface
 
 description: "A geometrically-consistent novel view synthesis framework for Single-View Aerial-Ground Re-Identification, training on one real viewpoint and generalizing to an unseen one."
 theme: light
 favicon: logo.png
 ---
 
-import HighlightedSection from "./components/HighlightedSection.astro";
 import Figure from "./components/Figure.astro";
 import Picture from "./components/Picture.astro";
 
-import gabstract from "./assets/gabstract.png";
-
 import tableAgreid from "./assets/table_agreid.svg?raw";
 import tableAgreid2 from "./assets/table_agreid2.svg?raw";
-import tableMoo from "./assets/table_moo.svg?raw";
 
 <Figure>
-    <Picture slot="figure" src={gabstract} alt="Problem formulation and proposed solution" priority />
-    <Fragment slot="caption">**Problem Formulation and Proposed Solution.** Standard AG-ReID (1.A) relies on paired data, which is often unavailable in real-world scenarios and leads to a missing cross-view challenge. We propose the Single-View Aerial-Ground Re-Identification (SV AG-ReID) setting (1.B), where models must adapt from a single viewpoint to an unseen target viewpoint. 3D-LENS tackles it with a Geometrically Consistent Novel View Synthesis (2.A) and a Robust Representation Learning scheme (2.B).</Fragment>
+    <div slot="figure" style="width: 70%">
+        <Picture src="../assets/gabstract_formulation.pdf" alt="Standard AG-ReID and the Single-View AG-ReID setting" priority />
+    </div>
+    <Fragment slot="caption">**Problem Formulation.** Standard AG-ReID (01) relies on paired data, which is often unavailable in real-world scenarios and leads to a missing cross-view challenge. To address this, we propose the Single-View Aerial-Ground Re-Identification (SV AG-ReID) setting (02), where models must adapt from a single viewpoint to an unseen target viewpoint.</Fragment>
 </Figure>
-
-<HighlightedSection>
 
 ## Abstract
 
 Aerial-Ground Re-Identification (AG-ReID) is constrained by the viewpoint-domain gap, as drastic viewpoint disparities occlude or distort discriminative features, making cross-viewpoint image retrieval challenging. While existing methods rely on paired cross-view annotations, real-world deployments, such as wilderness search-and-rescue (SAR), often lack target-domain data, requiring retrieval from ground-level references alone. To our knowledge, we are the first to address this challenge by formalizing the Single-View AG-ReID (SV AG-ReID) setting, where models trained on a single real viewpoint must generalize to an unseen viewpoint. We propose 3D Lifting-based Elevated Novel-view Synthesis (3D-LENS), a unified framework combining geometrically-consistent novel view synthesis that leverages large-scale 3D mesh reconstruction, with a robust representation learning scheme to mitigate synthetic-to-real bias. Unlike 2D generative baselines that suffer from geometric inconsistencies or prior 3D methods that are restricted to class-specific templates, our approach ensures view-consistent synthesis across diverse categories without predefined templates that fail to capture fine-grained details, such as carried objects. Extensive experiments demonstrate that our method achieves state-of-the-art performance on SV AG-ReID scenarios.
 
-</HighlightedSection>
+The code is available at [https://github.com/TurtleSmoke/3D-LENS](https://github.com/TurtleSmoke/3D-LENS), and the checkpoints on Hugging Face at [TurtleSmoke/3D-LENS](https://huggingface.co/TurtleSmoke/3D-LENS).
 
 ## Method
+
+<Figure>
+    <div slot="figure" style="width: 65%">
+        <Picture src="../assets/gabstract_overview.pdf" alt="Overview of the 3D-LENS solution" />
+    </div>
+    <Fragment slot="caption">**Proposed Solution.** To tackle the SV AG-ReID, 3D-LENS uses a Geometrically Consistent Novel View Synthesis (01) to generate consistent novel views from single images using large-scale 3D synthesis, and a Robust Representation Learning scheme (02) to mitigate remaining biases in the synthetic data. This approach enables robust cross-viewpoint representation learning without requiring paired cross-view supervision.</Fragment>
+</Figure>
 
 <Figure>
     <div slot="figure" style="width: 85%">
         <Picture src="../assets/lens.pdf" alt="Overview of the 3D-LENS framework" />
     </div>
-    <Fragment slot="caption">**Overview of the 3D-LENS framework.** For the Geometrically Consistent Novel View Synthesis, a source image is canonically lifted to a 3D representation (1.A), followed by novel view synthesis (1.B) and synthetic-to-real alignment (1.C). In our Robust Representation Learning scheme, an elevation-based curriculum scheduler (2.A) progressively introduces these synthetic views into training, then a balanced sampling strategy (2.B) mixes synthetic and real images into a batch optimized with standard ReID losses and a domain loss (2.C).</Fragment>
+    <Fragment slot="caption">**Overview of the 3D-LENS framework.** For the Geometrically Consistent Novel View Synthesis, a source image $I_i$ is canonically lifted to a 3D representation (01), followed by novel view synthesis (02) and synthetic-to-real alignment (03) to produce target-view images $I_i^{sty}$. In our Robust Representation Learning scheme, an elevation-based curriculum scheduler (04) progressively introduces these synthetic views into training, then a balanced sampling strategy (05) combines the synthetic views $I_i^{sty}$ and real images $I_i$ to form a mixed batch, which is optimized using standard ReID losses and a domain loss (06).</Fragment>
 </Figure>
 
 ## Results
@@ -79,15 +82,10 @@ Aerial-Ground Re-Identification (AG-ReID) is constrained by the viewpoint-domain
 
 <Figure>
     <Fragment slot="figure" set:html={tableAgreid2} />
-    <Fragment slot="caption">**State-of-the-Art Comparison on AG-ReID.v2 Dataset.** Training is performed on a single viewpoint (Aerial, CCTV or Wearable) and evaluated in a cross-view Query $\rightarrow$ Gallery scenario against Aerial (A), CCTV (C) and Wearable (W).</Fragment>
+    <Fragment slot="caption">**State-of-the-Art Comparison on AG-ReID.v2 Dataset.** Training is performed on a single viewpoint (Aerial, CCTV or Wearable) and evaluated in a cross-view Query $\rightarrow$ Gallery scenario against Aerial (A), CCTV (C) and Wearable (W). Results are reported as mAP and Rank-1 (%). Best results are in **bold**, and second-best are <u>underlined</u>.</Fragment>
 </Figure>
 
-<Figure>
-    <Fragment slot="figure" set:html={tableMoo} />
-    <Fragment slot="caption">**State-of-the-Art Comparison on MOO.** Training is performed on a single viewpoint (Top or Side) and evaluated in a cross-view Query $\rightarrow$ Gallery scenario on Top (T) and Side (S) views.</Fragment>
-</Figure>
-
-The margin separating 3D-LENS from prior arts across all cross-view scenarios reveals how severely conventional ReID methods degrade once they are placed in the SV AG-ReID setting, confirming that this setting is both challenging and relevant. By leveraging large-scale 3D reconstruction for novel view synthesis, our method learns to bridge the viewpoint-domain gap without requiring any real data from the target viewpoint.
+The margin separating 3D-LENS from prior arts across all cross-view scenarios reveals how severely conventional ReID methods degrade once they are placed in the SV AG-ReID setting. By leveraging large-scale 3D reconstruction for novel view synthesis, our method learns to bridge the viewpoint-domain gap without requiring any real data from the target viewpoint.
 
 ## Qualitative Results
 
@@ -95,10 +93,8 @@ The margin separating 3D-LENS from prior arts across all cross-view scenarios re
     <div slot="figure" style="width: 95%">
         <Picture src="../assets/visu_qual.pdf" alt="Qualitative results" />
     </div>
-    <Fragment slot="caption">**Qualitative results of geometrically consistent novel-view synthesis.** For each example, we show the original input image alongside two synthesized novel views generated by our 3D lifting pipeline.</Fragment>
+    <Fragment slot="caption">**Qualitative results of geometrically consistent novel-view synthesis.** For each example, we show the original input image alongside two synthesized novel views generated by our 3D lifting pipeline. The rendered views preserve identity-discriminative details such as clothing, body shape, and carried objects, while accurately reflecting the target viewpoint geometry.</Fragment>
 </Figure>
-
-Our 3D lifting pipeline synthesizes high-fidelity novel views from single input images, accurately reflecting the target camera perspective while preserving identity-discriminative details such as clothing and carried objects. Background compositing and style transfer further reduce the appearance mismatch between the synthesized foreground and the original background.
 
 ## Citation
 
