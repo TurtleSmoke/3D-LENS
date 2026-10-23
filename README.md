@@ -17,6 +17,8 @@ so the network sees the missing viewpoint during training. The synthetic views a
 and style-aligned with the real images. They are then mixed with the real images through a balanced sampler, a
 curriculum on the elevation shift and a domain token.
 
+[3D-VITAL](https://github.com/TurtleSmoke/3D-VITAL), a more advanced version of 3D-LENS accepted at NeurIPS 2026, is now available.
+
 ```
 generation/   synthetic view generation (segmentation, 3D lifting, calibration, rendering, background, StyleID)
 reid/         training and evaluation
